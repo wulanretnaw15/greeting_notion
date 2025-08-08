@@ -1,90 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Greeting Widget</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #F4F4F4;
-      font-family: 'Bebas Neue', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&display=swap" rel="stylesheet">
 
-    .greeting-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ffffff;
-      color: #192A56;
-      border-radius: 12px;
-      padding: 15px 30px;
-      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-      width: 80%;
-      max-width: 700px;
-      font-size: 1.5rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>greeting2</title>
 
-    .greet {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2rem;
-    }
+    <style>
+        /*CSS RESETS*/
+        body {
+            background-color: #F5F5F5;
+            line-height: 1.6;
+            font-family: 'Aleo', serif;
+            color: #6B0F1A;
+        }
 
-    .date, .clock {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 1px;
-    }
-  </style>
+        h1 {
+            margin-top: 0;
+        }
+
+        /*CSS START*/
+        .full-table {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .card {
+            padding: 10px 25px;
+            border-radius: 10px;
+            background: #F5F5F5;
+            width: 85vw;
+            color: #6B0F1A;
+            display: inline-block;
+            border: none;
+            box-shadow: none;
+        }
+
+        .clock {
+            display: inline;
+            font-size: 2em;
+        }
+
+        .time {
+            display: inline;
+            min-width: 37px;
+        }
+
+        .colon {
+            font-size: 1.1em;
+            display: inline-block;
+        }
+
+        .date {
+            display: inline;
+            min-width: 162px;
+            font-size: 2em;
+            padding-right: 30px;
+        }
+
+        .greet {
+            display: inline;
+            font-size: 2rem;
+            padding-right: 30px;
+        }
+    </style>
 </head>
 <body>
-  <div class="greeting-box">
-    <div class="greet" id="greetText">Loading...</div>
-    <div class="date" id="dateText"></div>
-    <div class="clock" id="clockText"></div>
-  </div>
+<div class="full-table">
+    <div class="table-cell">
+        <div class="card">
+            <div class="greet" id="greet"></div>
+            <div class="date" id="date"></div>
+            <div class="clock">
+                <div class="time" id="hour"></div>
+                <div class="colon">:</div>
+                <div class="time" id="min"></div>
+                <div class="colon">:</div>
+                <div class="time" id="sec"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <script>
-    function updateTime() {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-
-      const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-      const day = weekday[now.getDay()];
-      const month = now.toLocaleString('default', { month: 'short' }).toUpperCase();
-      const date = now.getDate();
-      const year = now.getFullYear();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-
-      const hh = hours % 12 || 12;
-      const mm = minutes.toString().padStart(2, '0');
-      const ss = seconds.toString().padStart(2, '0');
-
-      // Greeting based on time
-      let greetMsg = "Hello!";
-      if (hours < 12) {
-        greetMsg = "Rise and shine, Team!";
-      } else if (hours < 17) {
-        greetMsg = "Halfway there, keep it up!";
-      } else if (hours < 21) {
-        greetMsg = "You did great today!";
-      } else {
-        greetMsg = "Sleep tight, champs!";
-      }
-
-      document.getElementById('greetText').textContent = greetMsg;
-      document.getElementById('dateText').textContent = `${day} ${month} ${date} ${year}`;
-      document.getElementById('clockText').textContent = `${hh} : ${mm} : ${ss} ${ampm}`;
+<script>
+    function date() {
+        var today = new Date();
+        document.getElementById('date').innerHTML = today.toDateString();
     }
 
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
+    function clock() {
+        var today = new Date();
+        var hour = zeros(twelveHour(today.getHours()));
+        var minutes = zeros(today.getMinutes());
+        var seconds = zeros(today.getSeconds());
+        if (today.getHours() >= 12) {
+            seconds += " pm";
+        } else {
+            seconds += " am";
+        }
+        hrs = today.getHours();
+        if (hrs < 12)
+            greet = 'Good Morning  ';
+        else if (hrs >= 12 && hrs <= 17)
+            greet = 'Good Afternoon ';
+        else if (hrs >= 17 && hrs <= 24)
+            greet = 'Good Evening  ';
+
+        document.getElementById('greet').innerHTML = greet;
+        document.getElementById('hour').innerHTML = hour;
+        document.getElementById('min').innerHTML = minutes;
+        document.getElementById('sec').innerHTML = seconds;
+    }
+
+    function twelveHour(hour) {
+        if (hour > 12) {
+            return hour -= 12;
+        } else if (hour === 0) {
+            return hour = 12;
+        } else {
+            return hour;
+        }
+    }
+
+    // adds zero in front of single digit number
+    function zeros(num) {
+        if (num < 10) {
+            num = '0' + num
+        }
+        return num;
+    }
+
+    function dateTime() {
+        date();
+        clock();
+        setTimeout(dateTime, 500);
+    }
+
+    dateTime();
+</script>
 </body>
 </html>
+
